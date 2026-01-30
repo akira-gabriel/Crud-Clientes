@@ -1,11 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 function App() {
-  const [items, setItems] = useState([
-    { id: 1, razao: 'Empresa ABC Ltda', CNPJ: '12.345.678/0001-90', telefone: '(11) 98765-4321' },
-    { id: 2, razao: 'Comércio XYZ SA', CNPJ: '98.765.432/0001-10', telefone: '(21) 91234-5678' },
-    { id: 3, razao: 'Serviços Tech ME', CNPJ: '11.222.333/0001-44', telefone: '(47) 99876-5432' }
-  ]);
+  const [items, setItems] = useState(() => {
+    const saved = localStorage.getItem('clientes');
+    return saved ? JSON.parse(saved) : [
+      { id: 1, razao: 'Empresa ABC Ltda', CNPJ: '12.345.678/0001-90', telefone: '(11) 98765-4321' },
+      { id: 2, razao: 'Comércio XYZ SA', CNPJ: '98.765.432/0001-10', telefone: '(21) 91234-5678' },
+      { id: 3, razao: 'Serviços Tech ME', CNPJ: '11.222.333/0001-44', telefone: '(47) 99876-5432' }
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('clientes', JSON.stringify(items));
+  }, [items]);
   
   const [formData, setFormData] = useState({
     razao: '',
