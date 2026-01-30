@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react'
 
 function App() {
+  // Carrega do localStorage ou usa dados padrão
   const [items, setItems] = useState(() => {
-    const saved = localStorage.getItem('clientes');
-    return saved ? JSON.parse(saved) : [
+    try {
+      const saved = localStorage.getItem('clientes');
+      if (saved) {
+        console.log('✅ Dados carregados:', JSON.parse(saved));
+        return JSON.parse(saved);
+      }
+    } catch (error) {
+      console.error('❌ Erro ao carregar:', error);
+    }
+    
+    console.log('📦 Usando dados padrão');
+    return [
       { id: 1, razao: 'Empresa ABC Ltda', CNPJ: '12.345.678/0001-90', telefone: '(11) 98765-4321' },
       { id: 2, razao: 'Comércio XYZ SA', CNPJ: '98.765.432/0001-10', telefone: '(21) 91234-5678' },
       { id: 3, razao: 'Serviços Tech ME', CNPJ: '11.222.333/0001-44', telefone: '(47) 99876-5432' }
